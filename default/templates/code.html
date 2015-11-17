@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<style>
+			.highlighted {
+				background-color:#c5ff88;
+				border-top:1px dotted #030;
+			}
+			body { margin:0; background-color:#eaffd4; color:black; }
+			html { background-color:#eaffd4; }
+            pre { line-height:1.2em; }
+			.mangle_tag {
+				color:#000;
+			}
+		</style>
+		
+		<script src="/static/jquery-1.4.2.min.js"></script>
+		<script>
+			function highlightLink(index) {
+				jQuery(".mgbkt_style_MANGLELINK").each(function(i){
+				    jQuery(this)[i == index ? "addClass" : "removeClass"]("highlighted");
+				});
+			}
+			function highlightImage(index) {
+				jQuery(".mgbkt_style_MANGLEIMAGE").each(function(i){
+				    jQuery(this)[i == index ? "addClass" : "removeClass"]("highlighted");
+				});
+			}
+			function highlightStyle(styleName) {
+			    jQuery(".mgbkt_highlight").removeClass("highlighted");
+			    jQuery(".mgbkt_style_" + styleName).addClass("highlighted");
+			}
+            function setCodeSize(size) {
+                jQuery("pre").css("font-size", size);
+            }
+			function setCodeTypeface(typeface) {
+			    jQuery("pre").css("font-family", typeface);
+			}
+		</script>
+	</head>
+	<body class="$wk.font_face">
+		<table id="code_container" style="width:100%;" cellspacing="0" cellpadding="0"><tr><td style="padding-bottom:1px;">
+		<pre style="margin:0;font-size:${wk.font_size}px;font-family:$wk.font_face_string()">$html</pre>
+		</td></tr></table>
+	</body>
+</html>
+<script>
+    // if (parent.window.Workspace.Urls.current !== null) {
+    //  highlightLink(parent.window.Workspace.Urls.current);
+    // }
+    // if (parent.window.Workspace.Images.current != null) {
+    //  highlightImage(parent.window.Workspace.Images.current);
+    // }
+    if (parent.window.Workspace.styles.current()) {
+     highlightStyle(parent.window.Workspace.styles.current());
+    }
+    jQuery(".mgbkt_highlight_clickable").click(function(e){
+        parent.window.Workspace.styles.select(this);
+        return false;
+    });
+	parent.window.Workspace.frames.loaded("code");
+</script>

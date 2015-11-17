@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/base.css">
+        <script src="/static/jquery-1.4.2.min.js" type="text/javascript"></script>
+        <style>
+
+        </style>
+	</head>
+    <body>
+        <div style="padding-top:5px;">
+            <div style="float:right;padding:5px 10px;">$user</div>
+
+        	<table cellspacing="0" cellpadding="0" class="nav"><tr>
+        		<td class="tab"><a href="/" style="">MangleBracket</a> </td>	
+        	</tr></table>
+        </div>
+        
+        <hr style="margin:4px 0px 6px;">
+        
+        <div id="container" style="margin-top:30px;padding-top:0;">
+             <h1 style="font-family:KlavikaMedium">Create a New MangleBracket Account</h1>
+             <form action="/create_account" method="POST">
+                 <input type="hidden" name="google_callback" value="$google_callback">
+                 <p style="font-size:18px;padding-right:100px;">For the present moment (until all the
+                     bugs are worked out and Google offers an integrated billing solution), 
+                     accounts on MangleBracket.com are free.
+                     In the nearish future there will be a monthly fee.</p>
+                  <button type="submit" class="bigbutton">Create account and return to Google</button>
+             </form>
+        </div>
+    </body>
+</html>

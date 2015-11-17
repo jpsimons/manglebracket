@@ -1,0 +1,126 @@
+<html>
+<body>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/base.css">
+        <style>
+        	body {
+        		background:url(/static/images/brackets.gif) 0px -50px repeat-x;
+        	}
+        </style>
+    </head>
+    <body>
+        <style>
+            body { padding-bottom:20px; }
+        	#nav {
+        		color:#333;
+        	}
+        	#nav td {
+        		padding-right:8px;
+        		font-size:13px;
+        	}
+
+        	#nav td a {
+        		display:block;
+        		text-decoration:none;
+        		color:#333;
+        		padding:8px 30px 6px 30px;
+        		background-color:#ccc;
+        		border-bottom:3px solid #ccc;
+        	}
+        	#nav td a:hover {
+        		border-bottom:3px solid #333;
+        	}
+        </style>
+
+        <div id="container">
+
+            <h1 style="font-family:KlavikaMedium;"><span style="font-size:42px">MangleBracket<span style="color:#999">.com</span></span></h1>
+
+            <hr style="margin-top:10px;">
+            
+            <div style="background-color:#ffc;padding:15px 10px;font-size:14px;" id="login_form">
+            	#if $user
+            		You are logged in as $user.nickname. <a href="/documents">Go to your documents</a> or <a href="$logout_url">logout</a>.
+            	#else
+            	    You are not logged in. <a href="$login_url">Log in with your Google account</a>.
+            	#end if
+            </div>
+            
+            <hr>
+
+            <table class="layout" cellspacing="0" cellpadding="0" style="margin-top:30px">
+            	<tr>
+            		<td style="padding-right:40px;width:60%;background:url(/static/images/vrule_dotted.gif) top right repeat-y;font:16px 'Times New Roman';">
+            			<p style="font-weight:bold;font-style:italic;font-size:18px;">MangleBracket is an 
+            				<acronym title="No fully automated conversion process can cook up the HTML you need">interactive</acronym> 
+            				<acronym title="Currently accepting OpenOffice's .ODT format">Word</acronym> to 
+            				<acronym title="This is clean semantic HTML with optional classes for CSS styling hooks">HTML</acronym> 
+            				conversion tool.</p>
+            				
+            			<h2 style="color:red">UPDATE: Word conversion ran on a separate server I no longer felt
+            			    like paying for. MangleBracket continues to operate, but only OpenOffice documents. 
+            			    Convert to OpenOffice ODT before continuing.</h2>
+
+            			<p>Remember when Aperture talked about integrating into your digital RAW workflow? Well MangleBracket
+            				integrates into your <i>web copy workflow</i> &mdash; a workflow where you receive a Word document from the copywriter
+            				(or an external client) and convert it to clean generic HTML which can pick up styles from your CSS stylesheets.
+            				</p>
+ 
+            			<p style="margin-bottom:0.8em;font-size:14px;">Never again have to deal with:</p>
+            			<ul style="margin:0;padding-left:20px;font-size:14px;">
+            				<li>Wrapping text in P and LI tags</li>
+            				<li>Character encoding issues for symbols&trade;, for&euml;ign characters, and &ldquo;smart&rdquo; quotes</li>
+            				<li>Searching for placeholder hrefs</li>
+            				<li>Hand converting a 20 page Word doc only to learn that the copywriter
+            					has an <i>updated</i> Word doc with changes scattered all over the place</li>
+            				<li>Word's native "Export to HTML"</li>
+
+            			</ul>    
+
+                        <!--
+            			<hr>
+
+            			<table cellspacing="0" cellpadding="0" style="margin-top:10px;" id="nav">
+            				<tr>
+            					<td><a href="/features">Features</a></td>
+            					<td><a href="/membership">Membership/Pricing</a></td>
+            					<td><a href="/signup">Sign Up</a></td>
+            				</tr>
+            			</table>
+                        -->
+
+
+
+
+            		</td>
+            		<td style="padding-left:25px;">
+            			<p style="font-family:KlavikaMedium;font-size:18px;line-height:1em;"><span style="font-size:24px;color:#09f;">TRY IT NOW</span> with these sample documents:</p>
+                        <div style="font-size:12px;">
+                            <a href="/create_demo/coexist"><img src="/static/images/coexist.png" class="document-thumbnail"></a>
+                            <a href="/create_demo/coexist"><b>coexist.doc</b></a><br>Word document from Microsoft discussing Windows Server 2003 and Windows NT 4. For comparison you
+                            can <a href="/static/sample_documents/coexist.doc">Download the Original</a>.
+                        </div>
+
+                        <div style="font-size:12px;clear:left">
+                            <a href="/create_demo/tour"><b>MangleBracket feature tour</b></a><br>
+                            A walkthrough of some MangleBracket features, in a Word document.
+                            <br>
+                            <a href="/static/sample_documents/tour.doc">Download the Original</a>.
+                            <br><br>
+                            To get started uploading your own Word or OpenOffice documents, just sign
+                            in above with your Google account, then follow the "your documents" link.
+                        </div>
+                        <br clear=left>
+
+            		</td>
+            	</tr>
+            </table>
+
+            <hr style="margin-top:40px;">
+
+            <div style="font-size:10px;">
+            	<a href="/about">About MangleBracket</a>
+            </div>
+        </div>
+    </body>
+</html>

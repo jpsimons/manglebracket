@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+	    <link rel="stylesheet" type="text/css" href="/static/base.css">
+	    <link rel="stylesheet" type="text/css" href="/static/workspace.css">
+	    <script src="/static/jquery-1.4.2.min.js" type="text/javascript"></script>
+	    <title>MangleBracket</title>
+	</head>
+	<body>
+	
+
+
+
+
+<div style="padding-top:5px;">
+    <a href="$logout_url" style="float:right;margin-right:10px;margin-top:5px;">Log out $user</a>
+	
+	<table cellspacing="0" cellpadding="0" class="nav"><tr>
+		<td class="tab"><a href="/">MangleBracket</a></td>	
+		<td class="tab"><a href="/documents" style="background-color:#eee;">My Documents</a></td>
+		<td><a href="javascript:Workspace.popup('sharing')">Share This</a></td>
+		<td><a href="javascript:Workspace.popup('tips')">Tips</a></td>
+		<!--
+		<td><a href="#saveTemplateDialog" onclick="new Popup('save_template', {below:this, offset:[0,10]});return false;">Save Current Settings as Default</a> </td>
+		<td><a href="#share" onclick="new Popup('share', {below:this, offset:[0,10]});return false">Share This</a></td>
+		<td><a href="#tips" onclick="new Popup('popup_tips');return false;">Help Center</a></td>
+		-->
+	</tr></table>
+</div>
+
+<hr style="margin:4px 0px 6px;">
+
+<div style="position:relative;" id="columns">
+	
+<div style="position:absolute;top:0px;left:10px;width:280px;">
+
+	<table cellspacing="0" cellpadding="0" style="width:100%;" id="tool_tabs"><tr>
+		<td id="tool_tab_html" #if $wk.edit_tab == "html" then "class='current'" else ""#><a href="javascript:void('html')" rel="html">HTML</a></td>
+		<td id="tool_tab_styles" #if $wk.edit_tab == "styles" then "class='current'" else ""#><a href="javascript:void('styles')" rel="styles">Styles</a></td>
+		<td id="tool_tab_urls" #if $wk.edit_tab == "urls" then "class='current'" else ""#><a href="javascript:void('urls')" rel="urls">Links</a></td>
+		<td id="tool_tab_images" #if $wk.edit_tab == "images" then "class='current'" else ""#><a href="javascript:void('images')" rel="images">&nbsp;IMG&nbsp;</a></td>
+		<td id="tool_tab_css" #if $wk.edit_tab == "css" then "class='current'" else ""#><a href="javascript:void('css')" rel="css">&nbsp;CSS&nbsp;</a></td>
+	</tr></table>
+
+	<div>
+		
+		<!-- HTML -->
+		<div class="pane" id="html" style="display:#if $wk.edit_tab == "html" then "block" else "none"#;">
+			<form id="html_settings" onsubmit="updateHTML();return false;">
+				
+				<h3>General HTML</h3>
+				<p>
+					<input type="checkbox" name="join_consecutive_paragraphs" value="1" id="join_consecutive_paragraphs" #if $wk.join_consecutive_paragraphs then "checked" else "" # autosave>
+					<label for="join_consecutive_paragraphs">Merge consecutive paragraphs</label> <a href="javascript:Workspace.popup('merge')" class="help_trigger">[?]</a><br>
+					<input type="checkbox" name="auto_blockquote" value="1" id="auto_blockquote" #if $wk.auto_blockquote then "checked" else ""# autosave> 
+					<label for="auto_blockquote">Use blockquote for indented paragraphs</label><br>
+					<input type="checkbox" name="paragraph_borders_to_hr" value="1" id="paragraph_borders_to_hr" #if $wk.paragraph_borders_to_hr then "checked" else ""# autosave>
+					<label for="paragraph_borders_to_hr">Use HR for paragraph borders</label><br>
+					<input type="checkbox" name="straighten_curly_quotes" id="straighten_curly_quotes" #if $wk.straighten_curly_quotes then "checked" else ""# autosave> <label for="straighten_curly_quotes">Straighten curly quotes</label><br>
+					<input type="checkbox" name="smarty_pants" id="smarty_pants" #if $wk.smarty_pants then "checked" else ""# autosave> <label for="smarty_pants">Apply SmartyPants</label> <a href="javascript:Workspace.popup('smarty')" class="help_trigger">[?]</a>
+					
+				</p>
+				
+				<h3>Substitute headings for paragraphs</h3>
+				<p>
+					<input type="checkbox" #if $wk.auto_header_large_font_paragraph then "checked" else ""# id="auto_header_large_font_paragraph" name="auto_header_large_font_paragraph" autosave> <label for="auto_header_large_font_paragraph">larger</label> than 
+						<input type="text" size="3" class="text" value="$wk.auto_header_large_font_paragraph_points" name="auto_header_large_font_paragraph_points" autosave format="int"> points<br>
+					<input type="checkbox" #if $wk.auto_header_short_paragraph then "checked" else ""# id="auto_header_short_paragraph" name="auto_header_short_paragraph" autosave> <label for="auto_header_short_paragraph">shorter</label> than 
+						<input type="text" size="3" class="text" value="$wk.auto_header_short_paragraph_length" name="auto_header_short_paragraph_length" autosave format="int"> characters<br>
+					<input type="checkbox" #if $wk.auto_header_bold_paragraph then "checked" else ""# id="auto_header_bold_paragraph" name="auto_header_bold_paragraph" autosave> <label for="auto_header_bold_paragraph">all bold</label> 
+					<input type="checkbox" #if $wk.auto_header_caps_paragraph then "checked" else ""# id="auto_header_caps_paragraph" name="auto_header_caps_paragraph" autosave> <label for="auto_header_caps_paragraph">all caps</label>
+				</p>				
+		
+				<h3>Element preference</h3>
+				<p>
+					<input type="checkbox" name="em_strong" value="1" id="em_strong" #if $wk.em_strong then "checked" else ""# autosave> 
+					<label for="em_strong">Use STRONG &amp; EM instead of B &amp; I</label>
+				
+				    <!--
+					<br><input type="checkbox" name="tables_zebra_striped" value="1" id="tables_zebra_striped" #if $wk.tables_zebra_striped then "checked" else ""# autosave> 
+					<label for="tables_zebra_striped">Table zebra striping classes</label>
+					-->
+				</p>
+				<h3>Tab stops</h3>
+				<p>
+					<input type="radio" name="tab_conversion" id="tab_conversion_space" value="space" #if $wk.tab_conversion == "space" then "checked" else ""# autosave> <label for="tab_conversion_space">Space</label><br>
+					<input type="radio" name="tab_conversion" id="tab_conversion_br" value="br" #if $wk.tab_conversion == "br" then "checked" else ""# autosave> <label for="tab_conversion_br">BR tag</label><br>
+				</p>
+				
+				<h3>Code formatting</h3>
+				<p style="line-height:2.0em;">
+				<input type="checkbox" id="hard_wrap" #if $wk.hard_wrap then "checked" else ""# name="hard_wrap" value="1" autosave>
+				<label for="hard_wrap">Hard wrap</label> at <input type="text" value="$wk.line_length" size="5" maxlength="5" name="line_length" autosave format="int" class="text"> characters<br>
+				<!--
+				<input type="checkbox" id="hard_wrap_after_br" #if $wk.hard_wrap_after_br then "checked" else ""# name="hard_wrap_after_br" value="1" autosave> 
+				<label for="hard_wrap_after_br">Wrap line</label> after each BR tag<br>
+                -->
+				Indent with 
+				<select name="indent_string_code" autosave>
+				    #for o in $indent_strings
+					<option value="$o[2]" #if $wk.indent_string_code == $o[2] then "selected" else ""#>$o[0]</option>
+					#end for
+				</select><br>
+				
+				Indent style 
+				<select name="indent_style" autosave>
+					#for o in $indent_styles
+					<option value="$o[1]" #if $wk.indent_style == $o[1] then "selected" else ""#>$o[0]</option>
+					#end for
+				</select>
+
+				</p>
+			
+				<h3>Output options</h3>
+				<p>
+					<table class="layout" cellspacing="0" cellpadding="0"><tr><td style="padding-right:20px;">
+					Format:<br>
+						<input type="radio" name="output_format" value="html" id="format_html" #if $wk.output_format == "html" then "checked" else ""# autosave><label for="format_html">HTML</label><br>
+						<input type="radio" name="output_format" value="xhtml" id="format_xhtml" #if $wk.output_format == "xhtml" then "checked" else ""# autosave><label for="format_xhtml">XHTML</label>
+					</td><td>
+					Encoding:<a href="javascript:Workspace.popup('encoding')" class="help_trigger">[?]</a><br>
+					#for $e in $encodings
+					    <input type="radio" name="encoding" id="encoding_$e[0]" value="$e[0]" #if $wk.encoding == $e[0] then "checked" else ""# autosave><label for="encoding_$e[0]">$e[1]</label><br>
+					#end for
+					</td></tr></table>
+				</p>
+				
+			</form>
+		</div>	
+		
+		<!-- Styles -->
+		<div class="pane" id="styles" style="display:none">
+			<div id="style_list" style="overflow:auto;padding-right:2px;">
+				<h3>Pseudo Styles <a href="javascript:Workspace.popup('pseudo')" class="help_trigger">[?]</a></h3>
+				<p>
+    				#for $style in $wk.style_set.filter("category =", "recovered")
+						<a href='javascript:Workspace.styles.edit("${style.name}")' id="edit_style_${style.name}" rel="$style.element|$style.css_class|$style.style">$style.display_name</a>
+    				#end for				
+				</p>
+				<h3>Named Styles</h3>
+				<p>
+    				#for $style in $wk.style_set.filter("category =", "named").order("display_name")
+					<a href='javascript:Workspace.styles.edit("${style.name}")' id="edit_style_${style.name}" rel="$style.element|$style.css_class|$style.style">$style.display_name</a>
+    				#end for				
+				</p>
+				<h3>Automatic Styles</h3>
+				<p>
+    				#for $style in $wk.style_set.filter("category =", "automatic").order("display_name")
+					<a href='javascript:Workspace.styles.edit("${style.name}")' id="edit_style_${style.name}" rel="$style.element|$style.css_class|$style.style">$style.display_name</a>
+    				#end for				
+				</p>
+			</div>
+			
+			<div id="style_edit" style="display:none;">
+				<form id="style_form" onsubmit="Workspace.styles.save();return false;">
+				<hr>
+		
+				<h3>Render as&hellip;</h3>
+				<p>
+					<select id="style_element" name="element" onchange="Workspace.styles.save();">
+						<option value="">(Default)</option>
+						<option value="burrow">(Contents)</option>
+						<option value="nothing">(Nothing)</option>
+						<option value="p">P</option>
+						<option value="h1">H1</option>
+						<option value="h2">H2</option>
+						<option value="h3">H3</option>
+						<option value="h4">H4</option>
+						<option value="h5">H5</option>
+						<option value="h6">H6</option>
+						<option value="div">DIV</option>
+						<option value="blockquote">BLOCKQUOTE</option>
+						<option value="b">B</option>
+						<option value="i">I</option>
+						<option value="u">U</option>
+						<option value="sup">SUP</option>
+						<option value="cite">CITE</option>
+						<option value="code">CODE</option>
+						<option value="strong">STRONG</option>
+						<option value="em">EM</option>
+						<option value="span">SPAN</option>
+						<option value="hr">HR</option>
+					</select>.<input type="text" size="8" style="padding:0;" name="css_class" id="style_class" onchange="Workspace.styles.save();"><br>
+					with inline CSS <input type="text" size="15" style="padding:0;" name="style" id="style_style" onchange="Workspace.styles.save();">
+				</p>
+				</form>
+			</div>
+		</div>
+			
+		
+		<!-- Links -->
+		<div class="pane" id="urls" style="display:#if $wk.edit_tab == "urls" then "block" else "none"#;">
+			<h3>Base HREF <a href="javascript:Workspace.popup('base-href')" class="help_trigger">[?]</a></h3>
+			<div style="margin-bottom:1em;">
+				<form onsubmit="Workspace.urls.saveBaseHref();return false;" id="form_base_href">
+				<input type="text" style="width:200px;" class="text" onchange="Workspace.urls.saveBaseHref();return false;" value="$wk.base_href" name="base_href" id="base_href">
+				</form>
+			</div>
+			
+			<h3>Links</h3>
+
+			#if len($wk.link_array()) > 0
+			    <div id="link_urls" class="link_list" style="max-height:300px;overflow:auto;" >
+			        #for $link in $wk.link_array()
+				    <div><img src="/static/images/link_ok.gif" style="margin-right:2px;"><a class="link" href="$link.href" onclick="Workspace.urls.edit($link.index);return false;" #if $link.external then "target='_blank'" else ""#>#if $link.text then $link.text else "(No text)"#</a></div>
+			        #end for
+			    </div>
+    			<div style="visibility:hidden;margin-bottom:1.2em;" id="link_edit">
+    				<hr>
+    				<input type="text" style="width:244px;" id="link_url_edit" onchange="Workspace.urls.save();"><br>
+    				<input type="checkbox" id="link_external_edit" onclick="Workspace.urls.save();"> <label for="link_external_edit">Open in new window</label><br>
+    			</div>
+			#else
+				<div style="margin-bottom:1.2em" id="link_urls">Your document contains no links.</div>
+			#end if
+		</div>
+		
+		<!-- Images -->
+		<div class="pane" id="images" style="display:none;">
+			<h3>Embedded Images</h3>
+			<div style="margin-bottom:1.2em;">
+				<form onsubmit="Workspace.Images.savePath();return false;" id="embedded_image_path_form">
+				Path <input type="text" style="width:160px;" class="text" id="embedded_image_path" name="embedded_image_path" value="$wk.embedded_image_path" onchange="Workspace.images.savePath();">
+				</form>
+
+                <!--
+				&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="/workspace/$wk.key().id()/download_images">Download Images ZIP</a>
+                -->
+			</div>
+			
+			<h3>Images</h3>
+
+			#if $wk.image_set.count() > 0
+			<div id="image_urls" class="link_list" style="max-height:300px;overflow:auto;">
+			#for $image in $wk.image_set.order("index")
+				<div><a class="image" href="#TODO" onclick="Workspace.images.edit($image.index);return false;" alt="$image.alt" external_url="$image.external_url" use_external_url="$image.use_external_url" filename="$image.data.filename">Image $image.one_based_index()</a></div>
+			#end for
+			</div>
+			<div style="visibility:hidden;margin-bottom:1.2em;" id="image_edit">
+				<hr>
+				<p style="margin-bottom:5px;">
+				<input type="radio" name="image_use_embedded" value="yes" id="image_use_embedded_yes" onclick="Workspace.images.save();"> <label for="image_use_embedded_yes">Use embedded</label><br>
+				<input type="text" style="margin-left:23px;width:100px;" id="image_embed_edit" name="image_embed_edit" onchange="Workspace.images.save();" disabled>.<span id="image_embed_extension"></span></p>
+				<p>
+				<input type="radio" name="image_use_embedded" value="no" id="image_use_embedded_no" onclick="Workspace.images.save();"> <label for="image_use_embedded_no">Use external URL</label><br>
+				<input type="text" style="width:200px;margin-left:23px;" id="image_src_edit" name="image_src_edit" onchange="Workspace.images.save();">
+					</p>
+				<p>Alt text<br>
+					<input type="text" name="image_alt" id="image_alt" style="width:244px;" onchange="Workspace.images.save()">
+			</div>
+			#else
+			<div id="image_urls">Your document contains no images.</div>
+			#end if
+		</div>		
+		
+		<!-- CSS -->
+		<div class="pane" id="css" style="display:none">
+			<form onsubmit="Workspace.css.load();return false;" id="form_loadcss">
+			<select onchange="Workspace.css.load();" id="select_loadcss">
+				<option value="">Sample stylesheets...</option>
+				#for $s in $sample_stylesheets
+				<option>$s[0]</option>
+				#end for
+			</select>
+			</form>
+			
+			<form id="css" onsubmit="applyCSS();return false;">
+			<textarea style="width:272px;height:500px;font-size:10px;border:1px solid #999;padding:2px;" id="css_text">$wk.css</textarea><br>
+			</form>
+		</div>		
+
+		
+	</div>
+</div>			
+
+
+<div id="main_container" style="margin-right:10px;margin-left:300px;background:url(/static/images/vrule_dotted.gif) repeat-y;padding-left:10px;">
+	
+	
+	<div id="code_preferences" style="float:right;">
+	    <select class='size'>
+	        #for $s in $font_sizes
+	        <option value=$s #if $wk.font_size == $s then "selected" else ""#>${s}px</option>
+	        #end for
+	    </select> 
+	    <select class='face'>
+			#for $f in $font_faces
+			<option value="$f[0]" rel="$f[2]">$f[1]</option>
+			#end for
+	    </select>
+	    
+	    <script>
+	        jQuery("#code_preferences .size").val("$wk.font_size");
+	        jQuery("#code_preferences .face").val("$wk.font_face");
+	    </script>
+
+	</div>
+	
+	<div style="float:right;margin-top:3px;color:red;margin-right:15px;" id="status_message"></div>	
+	
+	<table cellspacing="0" cellpadding="0" id="iframe_tabs"><tr>
+		<td class="view_tab">
+			<a href="javascript:void('Show code')" id="tab_code">Code</a>
+		</td>
+		<td class="view_tab">
+			<a href="javascript:void('Show preview')" id="tab_preview">Preview</a>
+		</td>
+		<td>
+		    <img src="/static/images/spinner.gif" id="spinner" style="margin-left:5px;display:none;">
+		</td>
+	</tr></table>
+
+	<iframe src="/workspace/${id}.code" style="width:100%;display:none;margin-right:-20px;" id="code" name="code"></iframe>
+	<iframe src="/workspace/${id}.preview" style="width:100%;display:none;margin-right:-20px;" id="preview" name="preview"></iframe>
+
+
+</div>
+
+</div><!-- columns -->
+
+<hr style="margin:3px 0px;">
+
+<div class="status_bar">
+	<div style="float:right">
+		<img src="/static/images/download.gif">
+		
+		<a href="/workspace/${id}.text" target="_blank">Get plaintext</a> 
+		(<a href="/workspace/${id}.text?download=1">download</a>)
+	</div>
+	<table cellspacing="0" cellpadding="0">
+		<tr>
+			<td style="padding-right:5px;"><b>Current file</b>:</td>
+			<td><img src="/static/images/${wk.original_extension()}_icon.gif" align="top"> $wk.original_filename</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td style="font-size:11px;padding-top:2px;"><!--<a href="#replace" onclick="new Popup('menu_replace');return false;">upload a new version</a>--></td>
+		</tr>
+	</table>
+
+</div>
+
+
+<script>
+	// Stuff that should run as early as possible
+	jQuery("#$wk.edit_tab").show();
+	jQuery("#$wk.view_tab").show();
+	jQuery("#tab_$wk.view_tab").addClass("view_tab_selected");
+
+	(fitHeight = function() {
+		var CHROME_HEIGHT = 130;
+		var height = jQuery(window).height();
+		jQuery("#code").css("height", height - CHROME_HEIGHT);
+		jQuery("#preview").css("height", height - CHROME_HEIGHT);
+		jQuery("#style_list").css("maxHeight", height - CHROME_HEIGHT - 175);
+		jQuery("#link_urls").css("maxHeight", height - CHROME_HEIGHT - 225);
+		jQuery("#image_urls").css("maxHeight", height - CHROME_HEIGHT - 275);
+		jQuery("#css_text").css("height", height - CHROME_HEIGHT - 105);
+	})();
+
+    jQuery(window).resize(fitHeight);
+</script>
+
+<div id="sharing" style="display:none">
+    <p>
+        These links will work for anybody, logged in or not, as long as they have the secret "key" parameter.
+    </p>
+    <a href="http://manglebracket.appspot.com/workspace/${wk.key().id()}.text?key=$wk.sharing_key" style="font-size:16px;" target="_blank">HTML Code</a><br>
+    <input type="text" value="http://manglebracket.appspot.com/workspace/${wk.key().id()}.text?key=$wk.sharing_key" style="width:450px"><br><br>
+    <a href="http://manglebracket.appspot.com/workspace/${wk.key().id()}.preview?key=$wk.sharing_key" style="font-size:16px;" target="_blank">Preview</a><br>
+    <input type="text" value="http://manglebracket.appspot.com/workspace/${wk.key().id()}.preview?key=$wk.sharing_key" style="width:450px"><br><br>
+    <input type="submit" class="close button" value="OK">
+</div>
+
+<div id="merge" style="display:none">
+    <h1>Merge Consecutive Paragraphs</h1>
+    <p>This is a very often-used option. It <b>joins consecutive paragraphs together with BR tags</b>, in case the author
+    	intended one return to mean a linebreak and two returns to be a new paragraph. In fact if they use Word that
+    	way it generates something like this:</p>
+
+    <blockquote>
+    	<code>&lt;p&gt;Barton Walter Corp.&lt;/p&gt;</code><br>
+    	<code>&lt;p&gt;1820 Dairy Street&lt;/p&gt;</code><br>
+    	<code>&lt;p&gt;Amboy, WA 98010&lt;/p&gt;</code><br>
+    	<code>&lt;p&gt;&lt;/p&gt;</code><br>
+    	<code>&lt;p&gt;Dear Sir:&lt;/p&gt;</code>
+    </blockquote>
+
+    <p>Enabling this option gives you output more like what you want:</p>
+    <blockquote>
+    <code>
+    	&lt;p&gt;<br>
+    	&nbsp; Barton Walter Corp.&lt;br&gt;<br>
+    	&nbsp; 1820 Dairy Street&lt;br&gt;<br>
+    	&nbsp; Amboy, WA 98010<br>
+    	&lt;/p&gt;<br>
+    	&lt;p&gt;Dear Sir:&lt;/p&gt;	
+    </code>
+    </blockquote>
+    <p style="font-size:13px"><i><b>Note:</b> This option is applied as the lowest priority. If some paragraphs got transformed
+    	to different HTML elements via the HTML options or the Styles tab, they won't be available for merging.</i></p>
+    <input type="submit" value="OK" class="close button">
+</div>
+
+<div id="smarty" style="display:none">
+    <h1>Smarty Pants</h1>
+    <p>Use this option to convert ASCII quotes, dashes and ellipses to real typography, similar to Gruber's
+    <a href="http://daringfireball.net/projects/smartypants/" target="_blank">SmartyPants</a> filter. It's most
+    useful for curling your quotes and converting the double hypen to an em dash.</p>
+
+    <style>
+    	#table1 td { padding-right:10px; padding-bottom:5px; }
+    </style>
+    <table id="table1">
+    	<tr>
+    		<th>Original ASCII</th><th>Conversion</th><th>Unicode</th>
+    	</tr>
+    	<tr>
+    		<td>Em dashes -- not en dashes -- set off a parenthetical thought</td>
+    		<td>Em dashes &mdash; not en dashes &mdash; set off a parenthetical thought</td>
+    		<td>U+2014</td>
+    	</tr>
+    	<tr>
+    		<td>What the...</td>
+    		<td>What the&hellip;</td>
+    		<td>U+2026</td>
+    	</tr>
+    	<tr>
+    		<td>Typographer's apostrophe and single 'quotes'</td>
+    		<td>Typographer&apos;s apostrophe and single &lsquo;quotes&rsquo;</td>
+    		<td>U+2018<br>U+2019</td>
+    	</tr>
+    	<tr>
+    		<td>"Let the Good Times Roll" by the Cars.</td>
+    		<td>&ldquo;Let the Good Times Roll&rdquo; by the Cars.</td>
+    		<td>U+201C<br>U+201D</td>
+    	</tr>
+    </table>    
+    <input type="submit" value="OK" class="close button">
+</div>
+
+<div id="encoding" style="display:none">
+    <h1>Charset Encoding</h1>
+    <dl>
+        <dt>UTF-8</dt>
+        <dd>No HTML entities are necessary, except for &lt;, &gt; and &amp;. All other
+    	characters use a variable number of bytes to encode the full Unicode space.</dd>
+
+        <dt>Latin-1</dt>
+        <dd>Characters in Latin-1 are encoded as single bytes, such as copyright (&copy;) and
+    	the Spanish enye (&ntilde;). Everything else is encoded with an entity, such as 
+    	curly quotes (<code>&amp;ldquo;</code> and <code>&amp;rdquo;</code>), symbols like a black star (<code>&amp;#9733;</code>) and Greek
+    	characters (<code>&amp;alpha;</code>, <code>&amp;beta;</code>, <code>&amp;gamma;</code>, etc.)</dd>
+
+        <dt>ASCII</dt>
+        <dd>This is a seven-bit clean encoding, anything greater than character 127 is encoded with
+    	an entity.</dd>
+    </dl>
+    <input type="submit" value="OK" class="close button">
+</div>
+
+<div id="pseudo" style="display:none">
+    <h1>Pseudo Styles</h1>
+    <p><i>Pseudo styles are "made up" by MangleBracket &mdash; they don't derive from any particular 
+    	character or paragraph formatting in Word, they are more like a general category of elements.</i></p>
+
+
+    <p><b>Recovered Headings</b> &ndash; These are paragraphs that got promoted to headings
+    	because of the criteria you specified on the HTML tab, such as a large font
+    	or all uppercase.</p>
+
+    <p><b>Indented</b> &ndash; These are paragraphs with a non-zero left margin.</p>
+
+    <p><b>Horizontal Rules</b> &ndash; Word has no concept of a horizontal rule, all it has is paragraph
+    	border on each of the four sides. For top and bottom borders, MangleBracket converts those to this
+    	pseudo style which defaults to a rendering of HR. You can use an alternate rendering though, such as
+    	a DIV with inline style to give a border.</p>
+
+    <p>Links, Anchors and Images should be self-explanitory.</p>
+    <input type="submit" value="OK" class="close button">
+</div>
+
+<div id="base-href" style="display:none">
+    <h1>Base HREF</h1>
+    <p>You only need this if you have <b>relative URLs</b> in your A or IMG tags, so that your
+    	links will work and your images will show up in the preview view. </p>
+    <p>If you do provide a base
+    	href, make sure it's an absolute url to a directory (not a file), such as <code>http://mysite.com/stuff/</code>.</p>
+    <input type="submit" value="OK" class="close button">
+</div>
+
+<div id="tips" style="display:none;">
+	<h1>Helpful Tips</h1>
+	<p>
+		<b>Code View</b> is <b>interactive</b>. Hover over an element to see which Style it's using. Click it to select
+		that style in the Styles pane.
+	</p>
+	<p>
+		<b>Preview</b> is interactive and <i>sharable</i>. Double-click or hover to see which 
+		Style is applied. Go to <b>Share This</b> and you'll see the public URL which can be
+		passed around and used by anybody, such as a copy editor or whoever's reviewing and
+		approving.
+	</p>
+	<p>
+		<b>Getting the source</b>: Either click on the Code View and do Ctrl-A/Ctrl-C (Select All, Copy), or you can save
+		it by clicking the Get Plaintext link in the lower right.
+	</p>
+	<p><input type="submit" value="OK" class="close button"></p>
+</div>
+
+<script src="/static/javascript/workspace.js" type="text/javascript"></script>
+<script type="text/javascript">
+    Workspace.initialize($id);
+    
+    jQuery("#link_urls div").each(function(){
+        var div = jQuery(this);
+        var a = div.find("a").eq(0);
+        var warning = div.find("img").eq(0);
+        Workspace.urls.updateValidityIcon(a, warning);
+    });    
+</script>
+
+</body>
+</html>

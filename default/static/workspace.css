@@ -1,0 +1,178 @@
+body { 
+}
+
+/***# MENU BAR #***/
+#menu_bar {
+	color:white;
+	font:10px Verdana;
+}
+#menu_bar a {
+	color:white;text-decoration:none;
+}
+#menu_bar a:hover {
+	color:#446;
+}
+
+/***# HELP #***/
+.help_trigger {
+	color:#999;
+	font-size:10px;
+	position:relative;
+	margin-left:5px;
+}
+.help_popup {
+	position:absolute;
+	z-index:500;
+	width:400px;
+	background-color:white;
+	padding:15px;
+	border:2px solid #ccc;
+}
+
+.pane {
+	color:#333;
+}
+.pane h3 {
+	text-transform:uppercase;
+	font-size:11px;
+	margin:0 0 5px 0;
+}
+.pane p {
+	color:#666;
+}
+.pane input.text {
+	border-style:none;
+	border-bottom:2px solid #999;
+	background-color:#ccc;
+	padding:0px 2px;
+}
+
+.view_tab {
+	padding-right:2px;
+}
+.view_tab a {
+	text-align:center;
+	background-color:#ccc;
+	text-decoration:none;
+	display:block;
+	padding:5px 40px;
+	color:#666;
+	font-size:13px;
+}
+.view_tab .view_tab_selected {
+	background-color:#333;
+	color:#ccc;
+}
+
+.status_bar {
+	margin:0px 10px 3px 10px;
+	padding:10px 0px 0px 300px;
+	font-size:12px;
+}
+
+#style_list p a {
+	display:block;
+	padding:1px 3px;
+	color:#343;
+}
+#style_list p a.under_edit {
+	background-color:#343;
+	color:#af7;
+	text-decoration:none;
+}
+.link_list { padding-bottom:1px; }
+.link_list a {
+	color:#343;
+}
+.link_list div.under_edit {
+	background-color:#af7;
+}
+.link_list div.under_edit a {
+	
+}
+
+#code {
+	border-style:none;
+	border-bottom:2px solid white;
+	background-color:#eaffd4;
+}
+#preview {
+	border-style:none;
+	border-top:2px solid #333;
+	background-color:white;
+}
+
+#tool_tabs {
+	margin-bottom:15px;
+}
+#tool_tabs td {
+	padding-right:2px;
+}
+#tool_tabs td a {
+	text-align:center;
+	background-color:#ccc;
+	text-decoration:none;
+	display:block;
+	padding:5px 2px;
+	color:#666;
+	font-size:13px;	
+	
+}
+#tool_tabs td.current a {
+	background-color:#333;
+	color:#ccc;
+}
+
+.menu {
+	position:absolute;
+	width:300px;
+	border:3px solid #999;
+	padding:10px;
+	background-color:#eee;
+}
+
+.popup {
+    position: absolute;
+    background-color: #444;
+    padding: 30px;
+    opacity:0.97;
+    color:#ccc;
+}
+.popup p {
+    font-size:16px;
+    color:#ccc;
+}
+.popup input {
+    background-color:#333;
+    border:1px solid #999;
+    padding:2px 4px;
+    color:#eee;
+}
+.popup a {
+    color:#6bf;
+}
+.popup a:hover {
+    color:#09f;
+}
+.popup .button {
+    font-size:16px;
+    padding:5px 15px;
+}
+.popup .button:hover {
+    background-color:#036;
+}
+.popup .button:active {
+    padding:6px 14px 4px 16px;
+    color:#9df;
+}
+.popup code {
+    font-size:14px;
+}
+.popup dt {
+    font-weight:bold;
+    font-size:15px;
+}
+.popup dd {
+    font-size:15px;
+    margin-bottom:5px;
+}

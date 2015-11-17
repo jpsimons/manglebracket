@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<style>
+		    $wk.css
+		</style>
+		
+		<style>
+			.mgbkt_highlight_on {
+				background-color:#fc9;
+			}
+		</style>
+		
+		<script type="text/javascript" src="/static/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript">
+			function highlightStyle(styleName) {
+			    jQuery(".mgbkt_highlight").removeClass("mgbkt_highlight_on");
+			    jQuery(".mgbkt_style_" + styleName).addClass("mgbkt_highlight_on");
+			}		
+		</script>
+		
+		#if $wk.base_href
+		    <base href="$wk.base_href">
+		#end if
+	</head>
+	<body>$html</body>
+</html>
+<script>
+    if (parent && parent.window.Workspace && parent.window.Workspace.styles.current()) {
+     highlightStyle(parent.window.Workspace.styles.current());
+    }
+    jQuery(".mgbkt_highlight_clickable").dblclick(function(e){
+        parent.window.Workspace.styles.select(this);
+        return false;
+    });
+	parent.window.Workspace.frames.loaded("preview");	
+</script>
